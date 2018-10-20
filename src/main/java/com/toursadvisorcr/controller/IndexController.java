@@ -1,0 +1,16 @@
+package com.toursadvisorcr.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+
+/** The type Index controller. */
+public class IndexController {
+  /**
+   * Index string.
+   *
+   * @return the string
+   */
+  @RequestMapping(value = "/")
+  public String index() {
+        return "index";
+    }
+}
