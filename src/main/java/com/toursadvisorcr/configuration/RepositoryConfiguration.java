@@ -1,4 +1,4 @@
-package com.toursadvisorcr.Configuration;
+package com.toursadvisorcr.configuration;
 
 import com.toursadvisorcr.model.Destination;
 import com.toursadvisorcr.model.Tour;

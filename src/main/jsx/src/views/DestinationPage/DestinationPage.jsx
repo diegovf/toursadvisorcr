@@ -151,7 +151,7 @@ class DestinationPage extends React.Component {
             <GridItem xs={12} sm={12} md={4}>
               {destination.tours.slice(0, fixedHalf).map(o => (
                 <CustomCardMedia
-                  key={o.title}
+                  key={o.id}
                   {...o}
                   className={navImageClasses}
                 />
@@ -160,7 +160,7 @@ class DestinationPage extends React.Component {
             <GridItem xs={12} sm={12} md={4}>
               {destination.tours.slice(fixedHalf).map(o => (
                 <CustomCardMedia
-                  key={o.title}
+                  key={o.id}
                   {...o}
                   className={navImageClasses}
                 />

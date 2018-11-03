@@ -150,7 +150,7 @@ class HomePage extends React.Component {
                     <GridItem xs={12} sm={12} md={4}>
                       {handPickedOffers.slice(0, fixedHalfPicked).map(o => (
                         <CustomCardMedia
-                          key={o.title}
+                          key={o.id}
                           {...o}
                           className={navImageClasses}
                         />
@@ -159,7 +159,7 @@ class HomePage extends React.Component {
                     <GridItem xs={12} sm={12} md={4}>
                       {handPickedOffers.slice(fixedHalfPicked).map(o => (
                         <CustomCardMedia
-                          key={o.title}
+                          key={o.id}
                           {...o}
                           className={navImageClasses}
                         />
@@ -169,14 +169,14 @@ class HomePage extends React.Component {
                 )
               },
               {
-                tabButton: "Low Rates Tours Offers",
+                tabButton: "Low Rates Offers",
                 tabIcon: MoneyOff,
                 tabContent: (
                   <GridContainer justify="center">
                     <GridItem xs={12} sm={12} md={4}>
                       {lowRatesOffers.slice(0, fixedHalfRates).map(o => (
                         <CustomCardMedia
-                          key={o.title}
+                          key={o.id}
                           {...o}
                           className={navImageClasses}
                         />
@@ -185,7 +185,7 @@ class HomePage extends React.Component {
                     <GridItem xs={12} sm={12} md={4}>
                       {lowRatesOffers.slice(fixedHalfRates).map(o => (
                         <CustomCardMedia
-                          key={o.title}
+                          key={o.id}
                           {...o}
                           className={navImageClasses}
                         />
@@ -212,6 +212,7 @@ class HomePage extends React.Component {
       "/api/tours/search/findTop5ByPicked?picked=true"
     );
     let tours = await response.json();
+    console.log("tours: ", tours);
     this.setState({ handPickedOffers: tours._embedded.tours });
   };
 }

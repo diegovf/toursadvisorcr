@@ -30,7 +30,7 @@ import parallaxBackground from "old-assets/img/backgrounds/sunset.jpg";
 import adminPageStyle from "assets/jss/material-kit-react/views/adminPage.jsx";
 
 // utils
-import { readFileAsDataURL } from "utils/utils.js";
+import { saveFile } from "utils/utils.js";
 
 const dashboardRoutes = [];
 class AdminPage extends React.Component {
@@ -199,7 +199,7 @@ class AdminPage extends React.Component {
                 )
               }}
             />
-            <CustomInput
+            {/* <CustomInput
               labelText="Pdf"
               id="pdf"
               formControlProps={{
@@ -209,7 +209,7 @@ class AdminPage extends React.Component {
               inputProps={{
                 type: "file"
               }}
-            />
+            /> */}
             <CustomInput
               labelText="Image"
               id="image"
@@ -400,9 +400,14 @@ class AdminPage extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     const image = document.getElementById("image").files[0];
-    const pdf = document.getElementById("pdf").files[0];
-    const image64 = await readFileAsDataURL(image);
-    const pdf64 = await readFileAsDataURL(pdf);
+
+    const imageUri = await saveFile(image);
+    console.log("imageUri: ", imageUri);
+
+    // const pdf = document.getElementById("pdf").files[0];
+    // const image64 = await readFileAsDataURL(image);
+    // const pdf64 = await readFileAsDataURL(pdf);
+
     const code = document.getElementById("destination").value;
     const destination = this.state.destinations.find(d => d.value === code);
 
@@ -411,8 +416,8 @@ class AdminPage extends React.Component {
       price: document.getElementById("price").value,
       details: document.getElementById("details").value,
       description: document.getElementById("description2").value,
-      image: image64,
-      pdf: pdf64,
+      image: imageUri,
+      pdf: "pdf",
       destination: destination.href
     };
 
