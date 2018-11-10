@@ -30,9 +30,10 @@ import parallaxBackground from "old-assets/img/backgrounds/sunset.jpg";
 import adminPageStyle from "assets/jss/material-kit-react/views/adminPage.jsx";
 
 // utils
-import { saveFile } from "utils/utils.js";
+import { saveFiles } from "utils/utils.js";
 
 const dashboardRoutes = [];
+
 class AdminPage extends React.Component {
   state = {
     open: false,
@@ -56,7 +57,7 @@ class AdminPage extends React.Component {
 
   componentDidMount() {
     this.fetchDestinations();
-    this.fetchTours();
+    // this.fetchTours();
   }
   render() {
     const { classes, ...rest } = this.props;
@@ -199,17 +200,6 @@ class AdminPage extends React.Component {
                 )
               }}
             />
-            {/* <CustomInput
-              labelText="Pdf"
-              id="pdf"
-              formControlProps={{
-                fullWidth: true,
-                required: true
-              }}
-              inputProps={{
-                type: "file"
-              }}
-            /> */}
             <CustomInput
               labelText="Image"
               id="image"
@@ -218,7 +208,10 @@ class AdminPage extends React.Component {
                 required: true
               }}
               inputProps={{
-                type: "file"
+                type: "file",
+                inputProps: {
+                  multiple: true
+                }
               }}
             />
             <CustomInput
@@ -234,11 +227,34 @@ class AdminPage extends React.Component {
               }}
             />
             <CustomInput
-              labelText="Description"
-              id="description2"
+              labelText="Short Description"
+              id="shortDescription"
               formControlProps={{
                 fullWidth: true,
                 required: true
+              }}
+              inputProps={{
+                type: "text",
+                multiline: true
+              }}
+            />
+            <CustomInput
+              labelText="Long Description"
+              id="longDescription"
+              formControlProps={{
+                fullWidth: true,
+                required: true
+              }}
+              inputProps={{
+                type: "text",
+                multiline: true
+              }}
+            />
+            <CustomInput
+              labelText="Recommendations"
+              id="recommendations"
+              formControlProps={{
+                fullWidth: true
               }}
               inputProps={{
                 type: "text",
@@ -338,6 +354,7 @@ class AdminPage extends React.Component {
   fetchDestinations = async () => {
     let response = await fetch("/api/destinations");
     let body = await response.json();
+    console.log("body: ", body);
     let destinations = body._embedded.destinations.map(dest => ({
       value: dest.code,
       text: dest.name,
@@ -399,15 +416,8 @@ class AdminPage extends React.Component {
   handleOnSubmitTour = async event => {
     event.stopPropagation();
     event.preventDefault();
-    const image = document.getElementById("image").files[0];
 
-    const imageUri = await saveFile(image);
-    console.log("imageUri: ", imageUri);
-
-    // const pdf = document.getElementById("pdf").files[0];
-    // const image64 = await readFileAsDataURL(image);
-    // const pdf64 = await readFileAsDataURL(pdf);
-
+    const files = await saveFiles(document.getElementById("image").files);
     const code = document.getElementById("destination").value;
     const destination = this.state.destinations.find(d => d.value === code);
 
@@ -415,11 +425,13 @@ class AdminPage extends React.Component {
       title: document.getElementById("title").value,
       price: document.getElementById("price").value,
       details: document.getElementById("details").value,
-      description: document.getElementById("description2").value,
-      image: imageUri,
-      pdf: "pdf",
+      shortDescription: document.getElementById("shortDescription").value,
+      longDescription: document.getElementById("longDescription").value,
+      recommendations: document.getElementById("recommendations").value,
+      pictures: files.map(f => f.fileDownloadUri),
       destination: destination.href
     };
+    console.log(body);
 
     fetch("/api/tours", {
       method: "post",

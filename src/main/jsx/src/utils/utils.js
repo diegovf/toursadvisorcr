@@ -19,13 +19,17 @@ export async function readFileAsDataURL(file) {
   });
 }
 
-export async function saveFile(file) {
+export async function saveFiles(files) {
   const formData = new FormData();
-  formData.append("file", file);
-  const response = await fetch("/api/uploadFile", {
+  for (var index = 0; index < files.length; index++) {
+    formData.append("files", files[index]);
+  }
+
+  const response = await fetch("/api/uploadMultipleFiles", {
     method: "post",
     body: formData
   });
+
   let body = await response.json();
-  return body.fileDownloadUri;
+  return body;
 }

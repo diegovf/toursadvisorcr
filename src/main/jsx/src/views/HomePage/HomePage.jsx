@@ -16,7 +16,7 @@ import GridItem from "components/Grid/GridItem.jsx";
 import HeaderLinks from "components/Header/CustomHeaderLinks.jsx";
 import Parallax from "components/Parallax/Parallax.jsx";
 import NavPills from "components/NavPills/NavPills.jsx";
-import CustomCardMedia from "myComponents/CustomCardMedia/CustomCardMedia";
+import TourCard from "components/TourCard/TourCard";
 import { Typography } from "@material-ui/core";
 
 // utils
@@ -149,19 +149,21 @@ class HomePage extends React.Component {
                   <GridContainer justify="center">
                     <GridItem xs={12} sm={12} md={4}>
                       {handPickedOffers.slice(0, fixedHalfPicked).map(o => (
-                        <CustomCardMedia
+                        <TourCard
                           key={o.id}
-                          {...o}
                           className={navImageClasses}
+                          history={this.props.history}
+                          {...o}
                         />
                       ))}
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       {handPickedOffers.slice(fixedHalfPicked).map(o => (
-                        <CustomCardMedia
+                        <TourCard
                           key={o.id}
-                          {...o}
                           className={navImageClasses}
+                          history={this.props.history}
+                          {...o}
                         />
                       ))}
                     </GridItem>
@@ -175,19 +177,21 @@ class HomePage extends React.Component {
                   <GridContainer justify="center">
                     <GridItem xs={12} sm={12} md={4}>
                       {lowRatesOffers.slice(0, fixedHalfRates).map(o => (
-                        <CustomCardMedia
+                        <TourCard
                           key={o.id}
-                          {...o}
                           className={navImageClasses}
+                          history={this.props.history}
+                          {...o}
                         />
                       ))}
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       {lowRatesOffers.slice(fixedHalfRates).map(o => (
-                        <CustomCardMedia
+                        <TourCard
                           key={o.id}
-                          {...o}
                           className={navImageClasses}
+                          history={this.props.history}
+                          {...o}
                         />
                       ))}
                     </GridItem>
@@ -212,7 +216,6 @@ class HomePage extends React.Component {
       "/api/tours/search/findTop5ByPicked?picked=true"
     );
     let tours = await response.json();
-    console.log("tours: ", tours);
     this.setState({ handPickedOffers: tours._embedded.tours });
   };
 }

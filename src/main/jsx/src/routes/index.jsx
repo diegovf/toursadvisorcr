@@ -1,4 +1,4 @@
-// import Components from "views/Components/Components.jsx";
+import Components from "views/Components/Components.jsx";
 // import LandingPage from "views/LandingPage/LandingPage.jsx";
 // import ProfilePage from "views/ProfilePage/ProfilePage.jsx";
 // import LoginPage from "views/LoginPage/LoginPage.jsx";
@@ -6,6 +6,7 @@
 // news
 import HomePage from "views/HomePage/HomePage.jsx";
 import DestinationPage from "views/DestinationPage/DestinationPage.jsx";
+import TourPage from "views/TourPage/TourPage.jsx";
 import CarRentalPage from "views/CarRentalPage/CarRentalPage.jsx";
 import AccessPage from "views/AccessPage/AccessPage.jsx";
 import AdminPage from "views/AdminPage/AdminPage.jsx";
@@ -17,6 +18,12 @@ const indexRoutes = [
     exact: true,
     name: "DestinationPage",
     component: DestinationPage
+  },
+  {
+    path: "/tours/:tour",
+    exact: true,
+    name: "TourPage",
+    component: TourPage
   },
   {
     path: "/rent-a-car",
@@ -40,12 +47,12 @@ const indexRoutes = [
   //   component: ProfilePage
   // },
   // { path: "/login-page", exact: true, name: "LoginPage", component: LoginPage },
-  // {
-  //   path: "/components",
-  //   exact: true,
-  //   name: "Components",
-  //   component: Components
-  // },
+  {
+    path: "/components",
+    exact: true,
+    name: "Components",
+    component: Components
+  },
   { path: "/", exact: true, name: "Home", component: HomePage }
 ];
 

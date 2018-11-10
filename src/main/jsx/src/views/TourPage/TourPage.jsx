@@ -10,46 +10,41 @@ import Footer from "components/Footer/Footer.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import Parallax from "components/Parallax/Parallax.jsx";
-import CustomCardMedia from "components/TourCard/TourCard.jsx";
 import Header from "components/Header/Header.jsx";
 import HeaderLinks from "components/Header/CustomHeaderLinks.jsx";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+import Carousel from "components/Carousel/Carousel.jsx";
+import StringToList from "components/StringToList/StringToList.jsx";
+
 // styles
 import homePageStyle from "assets/jss/material-kit-react/views/homePage.jsx";
 import imagesStyles from "assets/jss/material-kit-react/imagesStyles";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 const dashboardRoutes = [];
 
 class DestinationPage extends React.Component {
   state = {
     isLoading: false,
-    destination: {
-      name: "",
-      code: 0,
-      description: "",
-      tours: []
-    }
+    tour: {}
   };
 
   componentDidMount() {
     const { match } = this.props;
-    this.fetchDestination(match.params.destination);
+    this.fetchTour(match.params.tour);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.match.params.destination !== this.props.match.params.destination
-    ) {
-      this.fetchDestination(nextProps.match.params.destination);
+    if (nextProps.match.params.tour !== this.props.match.params.tour) {
+      this.fetchTour(nextProps.match.params.tour);
     }
   }
 
   render() {
     const { classes, ...rest } = this.props;
-    const { destination, isLoading } = this.state;
-
+    const { tour, isLoading } = this.state;
+    console.log("tour", tour);
     return (
       <div>
         <Header
@@ -77,17 +72,39 @@ class DestinationPage extends React.Component {
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
-            {this.renderPageHeader(destination, classes)}
-            {!isLoading &&
-              destination.tours.length > 0 &&
-              this.renderPageContent(destination, classes)}
+            {this.renderPageHeader(tour, classes)}
+            <GridContainer
+              justify="center"
+              spacing={16}
+              style={{ paddingBottom: 25 }}
+            >
+              {tour.pictures && <Carousel pictures={tour.pictures} />}
+
+              <GridItem xs={12} sm={12} md={8}>
+                {tour.longDescription &&
+                  this.renderDescription(tour.longDescription)}
+              </GridItem>
+              <GridItem xs={12} sm={12} md={8}>
+                {tour.details && (
+                  <StringToList title="Details" string={tour.details} />
+                )}
+              </GridItem>
+              <GridItem xs={12} sm={12} md={8}>
+                {tour.recommendations && (
+                  <StringToList
+                    title="Recommendations"
+                    string={tour.recommendations}
+                  />
+                )}
+              </GridItem>
+            </GridContainer>
           </div>
         </div>
         <Footer />
       </div>
     );
   }
-  renderPageHeader = (destination, classes) => {
+  renderPageHeader = (tour, classes) => {
     const imageClasses = classNames(
       classes.imgRaised,
       classes.imgRoundedCircle,
@@ -106,73 +123,29 @@ class DestinationPage extends React.Component {
               <CircularProgress size={68} style={{ marginBottom: 70 }} />
             ) : (
               <div className={classes.name}>
-                <h2 className={classes.title}>{destination.name}</h2>
+                <h2 className={classes.title}>
+                  <a id="title" />
+                  {tour.title}
+                </h2>
               </div>
             )}
           </div>
-          {!isLoading && (
-            <Typography align="center" paragraph>
-              {destination.description}
-            </Typography>
-          )}
         </GridItem>
       </GridContainer>
     );
   };
 
-  /**
-   * @todo check structure
-   */
-  renderPageContent = (destination, classes) => {
-    const navImageClasses = classNames(classes.imgRounded, classes.imgGallery);
-    const fixedHalf = Number(destination.tours.length / 2).toFixed();
-
-    return (
-      <GridContainer justify="center">
-        <GridItem xs={12} sm={12} md={12} className={classes.navWrapper}>
-          <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={4}>
-              {destination.tours.slice(0, fixedHalf).map(o => (
-                <CustomCardMedia
-                  key={o.id}
-                  className={navImageClasses}
-                  history={this.props.history}
-                  {...o}
-                />
-              ))}
-            </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
-              {destination.tours.slice(fixedHalf).map(o => (
-                <CustomCardMedia
-                  key={o.id}
-                  className={navImageClasses}
-                  history={this.props.history}
-                  {...o}
-                />
-              ))}
-            </GridItem>
-          </GridContainer>
-        </GridItem>
-      </GridContainer>
-    );
+  renderDescription = description => {
+    return <Typography paragraph>{description}</Typography>;
   };
 
-  fetchDestination = async code => {
+  fetchTour = async id => {
     this.setState({ isLoading: true });
-
-    let response = await fetch(
-      `/api/destinations/search/findByCode?code=${code}`
-    );
-    const destination = await response.json();
-    response = await fetch(destination._links.tours.href);
-    const tours = await response.json();
-
+    let response = await fetch(`/api/tours/${id}`);
+    const tour = await response.json();
     this.setState({
       isLoading: false,
-      destination: {
-        tours: tours._embedded.tours,
-        ...destination
-      }
+      tour
     });
   };
 }

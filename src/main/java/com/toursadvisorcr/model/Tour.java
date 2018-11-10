@@ -5,6 +5,9 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Diego Varela (dvarela@securelink.com) on 9/22/18
@@ -13,8 +16,8 @@ import java.io.Serializable;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"destination"})
-@EqualsAndHashCode(exclude = {"destination"})
+@ToString(exclude = {"destination", "pictures"})
+@EqualsAndHashCode(exclude = {"destination", "pictures"})
 @Table(name = "tour")
 public class Tour implements Serializable {
     @Id
@@ -32,22 +35,24 @@ public class Tour implements Serializable {
     @Column(columnDefinition = "text", nullable = false)
     private String details;
 
-    @NotBlank
-    @Column(columnDefinition = "text", nullable = false)
-    private String description;
+    @Column(columnDefinition = "text")
+    private String recommendations;
 
     @NotBlank
     @Column(columnDefinition = "text", nullable = false)
-    private String image;
+    private String shortDescription;
 
     @NotBlank
     @Column(columnDefinition = "text", nullable = false)
-    private String pdf;
+    private String longDescription;
+
+    @Column
+    private boolean picked;
+
+    @ElementCollection
+    private List<String> pictures = new ArrayList<>();
 
     @ManyToOne(targetEntity = Destination.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "destination", nullable = false)
     private Destination destination;
-
-    @Column
-    private Boolean picked;
 }
