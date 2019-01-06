@@ -18,6 +18,7 @@ import logo from "old-assets/img/logo155.png";
 // styles
 import homePageStyle from "assets/jss/material-kit-react/views/homePage.jsx";
 import imagesStyles from "assets/jss/material-kit-react/imagesStyles";
+import { Typography } from "@material-ui/core";
 
 const dashboardRoutes = [];
 
@@ -96,6 +97,10 @@ class RentACar extends React.Component {
               <h2 className={classes.title}>Car Rental</h2>
             </div>
           </div>
+          <Typography align="center" paragraph>
+            Discover Costa Rica driving comfortably in a vehicle that fulfill
+            all your needs.
+          </Typography>
           <div className={classes.description}>
             <h3>
               Discover Costa Rica driving comfortably in a vehicle that fulfill
@@ -108,7 +113,6 @@ class RentACar extends React.Component {
   };
 
   renderPageContent = classes => {
-    console.log("classes: ", classes);
     return (
       <GridContainer justify="center">
         {cars.map((car, idx) => (

@@ -43,7 +43,6 @@ class Car extends React.Component {
 
   renderSpecifications = car => {
     const { name, specifications } = car;
-    console.log("specifications: ", specifications);
 
     return (
       <div style={{ color: "#3c4858" }}>

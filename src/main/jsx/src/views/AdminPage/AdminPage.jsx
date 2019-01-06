@@ -93,7 +93,6 @@ class AdminPage extends React.Component {
             </GridContainer>
           </div>
         </div>
-
         {this.renderNotification()}
       </div>
     );

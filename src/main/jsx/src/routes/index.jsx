@@ -10,6 +10,7 @@ import TourPage from "views/TourPage/TourPage.jsx";
 import CarRentalPage from "views/CarRentalPage/CarRentalPage.jsx";
 import AccessPage from "views/AccessPage/AccessPage.jsx";
 import AdminPage from "views/AdminPage/AdminPage.jsx";
+import AboutUsPage from "../views/AboutUsPage/AboutUsPage";
 
 const indexRoutes = [
   // news
@@ -33,6 +34,12 @@ const indexRoutes = [
   },
   { path: "/login", exact: true, name: "LoginPage", component: AccessPage },
   { path: "/admin", exact: true, name: "AdminPage", component: AdminPage },
+  {
+    path: "/about-us",
+    exact: true,
+    name: "AboutUs",
+    component: AboutUsPage
+  },
 
   // {
   //   path: "/landing-page",

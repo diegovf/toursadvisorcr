@@ -54,13 +54,13 @@ class CustomHeaderLinks extends React.Component {
             </Link>
           </Button>
         </ListItem>
-        <ListItem className={classes.listItem}>
+        {/* <ListItem className={classes.listItem}>
           <Button color="transparent" target="_blank" className={classes.navLink}>
-            <Link to="/rent-a-car" style={{ color: 'inherit' }}>
+            <Link to="/about-us" style={{ color: 'inherit' }}>
               <People className={classes.icons} /> About Us
             </Link>
           </Button>
-        </ListItem>
+        </ListItem> */}
         {/* <ListItem className={classes.listItem}>
           <Tooltip
             id="instagram-twitter"
